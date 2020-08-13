@@ -1,18 +1,35 @@
 package io.springbootlab.springbootsecuritymysql.config;
 
+import io.springbootlab.springbootsecuritymysql.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private  String username;
+    private String username;
+    private String password;
+    private List<GrantedAuthority> authorityList;
+    private String active;
 
-    public UserDetailsImpl(String userName) {
-        this.username=userName;
+    public UserDetailsImpl(String username) {
+        this.username=username;
+    }
+
+    public UserDetailsImpl(User username) {
+        this.username=username.getUsername();
+        this.password=username.getPassword();
+        this.active=username.getActive();
+        this.authorityList=Arrays
+                .stream(username.getUserrole().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     public UserDetailsImpl() {
@@ -21,18 +38,19 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorityList;
     }
 
     @Override
     public String getPassword() {
-        return "pass123";
+        return password;
     }
 
     @Override
     public String getUsername() {
         return username;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
