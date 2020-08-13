@@ -14,12 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsUtility userDetailsUtility;
+    UserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.userDetailsService(userDetailsUtility);
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    PasswordEncoder getPasswordEncoded(){
+    public PasswordEncoder getPasswordEncoded(){
         return  NoOpPasswordEncoder.getInstance();
     }
 }

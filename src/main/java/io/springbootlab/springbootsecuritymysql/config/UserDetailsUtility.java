@@ -11,6 +11,7 @@ public class UserDetailsUtility implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        System.out.println("user loading----------------");
         return new UserDetailsImpl(s);
     }
 }
