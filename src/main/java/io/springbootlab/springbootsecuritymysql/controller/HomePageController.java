@@ -6,6 +6,8 @@ package io.springbootlab.springbootsecuritymysql.controller;
 
         INSERT INTO user(id,active,roles,password,user_name)
         values (1,'true','ROLE_USER','pass123','user');
+
+        alter table user add primary key(id);
 */
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +41,7 @@ public class HomePageController {
 
     @RequestMapping(method = RequestMethod.GET,value = "/user")
     public String returnHomePageUser(){
+        System.out.println("controller called----------------");
         return "Welcome to User Env\n"+new Date();
     }
 }
